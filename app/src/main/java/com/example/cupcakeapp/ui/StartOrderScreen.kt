@@ -5,8 +5,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Button
@@ -22,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import com.example.cupcakeapp.ui.theme.CupcakeAppTheme
 import com.example.cupcakeapp.R
 import androidx.compose.ui.res.stringResource
+import com.example.cupcakeapp.data.DataSource
 
-import androidx.compose.material3.Text
 
 @Composable
 fun SelectQuantityButton(
@@ -43,6 +45,8 @@ fun SelectQuantityButton(
 
 @Composable
 fun StartOrderScreen(
+    quantityOptions: List<Pair<Int, Int>>,
+    onNextButtonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -56,22 +60,8 @@ fun StartOrderScreen(
                 dimensionResource(R.dimen.padding_small)
             )
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
-            ) {
-                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(
-                        dimensionResource(R.dimen.padding_medium)
-                    )
-                ) {
-                    // Aquí se colocarán más elementos
-                }
 
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
                 Image(
                     painter = painterResource(R.drawable.cupcake),
                     contentDescription = null,
@@ -87,8 +77,30 @@ fun StartOrderScreen(
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
 
             }
-
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
+        ) {
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(
+                    dimensionResource(R.dimen.padding_medium)
+                )
+            ) {
+                quantityOptions.forEach { item ->
+                    SelectQuantityButton(
+                        labelResourceId = item.first,
+                        onClick = { onNextButtonClicked(item.second)
+                            modifier
+                        }
+                    )
+                }
+            }
         }
+
     }
 }
 
@@ -97,6 +109,12 @@ fun StartOrderScreen(
 @Composable
 fun StartOrderPreview() {
     CupcakeAppTheme {
-        StartOrderScreen()
+        StartOrderScreen(
+            quantityOptions = DataSource.quantityOptions,
+            onNextButtonClicked = {},
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(dimensionResource(R.dimen.padding_medium))
+        )
     }
 }
