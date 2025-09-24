@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.cupcakeapp.ui.theme.CupcakeAppTheme
 import com.example.cupcakeapp.R
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun StartOrderScreen(
@@ -46,6 +49,13 @@ fun StartOrderScreen(
                 )
 
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
+                Text(
+                    text = stringResource(R.string.order_cupcakes),
+                    style = MaterialTheme.typography.headlineSmall
+                )
+
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+
             }
 
         }
