@@ -53,5 +53,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
+// el atajo para commit es ctrl + k
+
 
 
