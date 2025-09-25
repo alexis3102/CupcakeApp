@@ -1,5 +1,7 @@
 package com.example.cupcakeapp
 
+import androidx.compose.ui.platform.LocalContext
+
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -78,38 +80,41 @@ fun CupcakeApp(
         backStackEntry?.destination?.route ?: CupcakeScreen.Start.name
     )
 
-Scaffold(
-modifier = Modifier.fillMaxSize(),
-topBar = {
-    CupcakeAppBar(
-        currentScreen = currentScreen,
-        canNavigateBack = navController.previousBackStackEntry != null,
-        navigateUp = { navController.navigateUp() }
-    )
-}
-) { innerPadding ->
-    NavHost(
-        navController = navController,
-        startDestination = CupcakeScreen.Start.name,
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(innerPadding)
-    ) {
-        composable(route = CupcakeScreen.Start.name) {
-            StartOrderScreen(
-                quantityOptions = DataSource.quantityOptions,
-                onNextButtonClicked = {
-                    navController.navigate(CupcakeScreen.Flavor.name)
-                },
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(dimensionResource(R.dimen.padding_medium))
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            CupcakeAppBar(
+                currentScreen = currentScreen,
+                canNavigateBack = navController.previousBackStackEntry != null,
+                navigateUp = { navController.navigateUp() }
+            )
+        }
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = CupcakeScreen.Start.name,
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(innerPadding)
+        ) {
+            composable(route = CupcakeScreen.Start.name) {
+                StartOrderScreen(
+                    quantityOptions = DataSource.quantityOptions,
+                    onNextButtonClicked = {
+                        navController.navigate(CupcakeScreen.Flavor.name)
+                    },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(dimensionResource(R.dimen.padding_medium))
                 )
             }
-        composable(route = CupcakeScreen.Flavor.name){
-            SelectOptionScreen()
-        }
+            composable(route = CupcakeScreen.Flavor.name) {
+                val context = LocalContext.current
+                SelectOptionScreen(
+                    options = DataSource.flavors.map { id -> context.resources.getString(id) }
+                )
+            }
         }
     }
 }
