@@ -38,6 +38,8 @@ import com.example.cupcakeapp.ui.SelectOptionScreen
 enum class CupcakeScreen(val title: String) {
     Start(title = "Cupcake App"),
     Flavor(title = "Choose Flavor"),
+
+    Pickup(title = "Choose Pickup Date")
 }
 
 
@@ -112,10 +114,28 @@ fun CupcakeApp(
             composable(route = CupcakeScreen.Flavor.name) {
                 val context = LocalContext.current
                 SelectOptionScreen(
-                    options = DataSource.flavors.map { id -> context.resources.getString(id) }
+                    options = DataSource.flavors.map { id -> context.resources.getString(id) },
+                    onNext = {
+                        navController.navigate(CupcakeScreen.Pickup.name)
+                    },
+                    onCancel = {
+                        navController.popBackStack()
+                    }
                 )
-                
             }
+
+            composable(route = CupcakeScreen.Pickup.name) {
+                SelectOptionScreen(
+                    options = listOf("Wed Nov 15", "Thu Nov 16", "Fri Nov 17", "Sat Nov 18"),
+                    onNext = {
+
+                    },
+                    onCancel = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+
 
         }
 
