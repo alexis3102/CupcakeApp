@@ -73,7 +73,7 @@ fun CupcakeAppBar(
 
 @Composable
 fun CupcakeApp(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = CupcakeScreen.valueOf(
@@ -114,10 +114,15 @@ fun CupcakeApp(
                 SelectOptionScreen(
                     options = DataSource.flavors.map { id -> context.resources.getString(id) }
                 )
+                
             }
+
         }
+
     }
 }
+
+
 
 // el atajo para commit es ctrl + k
 
